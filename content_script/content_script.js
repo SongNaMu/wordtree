@@ -26,8 +26,12 @@ document.onmouseup = function mktooltip(){
     document.body.appendChild(div);
 
     getDragText();
-    div.innerHTML = selectTxt;
+
     console.log(selectTxt.toString());
+    chrome.runtime.sendMessage(selectTxt.toString(), function(rep){
+      console.log(rep);
+      div.innerHTML = rep;
+    });
     //alert(selectTxt);
   }
 
@@ -37,6 +41,6 @@ document.onmousedown = function(){
   if(document.getElementById("txtconsole")){
     var div = document.getElementById("txtconsole");
     document.body.removeChild(div);
-    
+
   }
 }

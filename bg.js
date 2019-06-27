@@ -7,3 +7,8 @@ chrome.runtime.onMessage.addListener(fucntion(message){
   }
 });
 */
+chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
+  console.log(message);
+  sendResponse("mean : " + message);
+
+});

@@ -17,5 +17,11 @@
   "background": {
     "scripts":["bg.js"],
     "persistent": true
-  }
+  },
+  "content_scripts":[
+    {
+      "matches": ["http://*/*", "https://*/*"],
+      "js": ["./content_script/content_script.js"]
+    }
+  ]
 }
