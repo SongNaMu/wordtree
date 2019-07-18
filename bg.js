@@ -8,10 +8,9 @@ chrome.runtime.onMessage.addListener(fucntion(message){
 });
 */
 var word;
-var state = 0;
 
+//ajax------------------------------------------
 var xhr = new XMLHttpRequest();
-
 xhr.onreadystatechange = callbackfunc;
 function callbackfunc(){
   if(xhr.readyState === 4 && xhr.status === 200){
@@ -21,13 +20,31 @@ function callbackfunc(){
     sendResponse("word");
   }
 }
+//xhr.open("GET", encodeURI("http://52.79.241.210/extention?word=" + message), true);
+//xhr.send();
+//--------------------------------------
 
 // 컨텐츠 스크립트까라 메시지가 왔을 때 서버로 요청을 보내고 response를 컨텐츠스크립트로 보내준다.
 chrome.runtime.onMessage.addListener(function (message, sender, sendResponse){
   console.log("from content = " + message);
-  xhr.open("GET", encodeURI("http://52.79.241.210/extention?word=" + message), true);
-  xhr.send();
-  //-----------------------
+    fetch("http://52.79.241.210/extention?word=" + message)
+    .then(response => response.text())
+    .then(function(text){
+      console.log(text);
+      word = text;
+      sendResponse(word);
+    });
+    return true;
+/*
+  fetch("http://52.79.241.210/extention?word=" + message).then(function(res){
+    if(res.status === 200 || res.status === 201){
+      sendResponse(res.text());
+      //console.log(res.text());
+    }else{
+      console.error(res.statusText);
+    }
+  });*/
+  //sendResponse("word");
 });
 
 //크롬 익스텐션이 처음 설치 됬을때, 업데이트 됬을때  크롬이 업데이트 되었을 때
